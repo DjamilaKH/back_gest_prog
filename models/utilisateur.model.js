@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Utilisateur.belongsTo(models.Role, {
       foreignKey: "roleId",
+      as: "role",
     });
 
     Utilisateur.hasMany(models.Tache, {
@@ -30,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     Utilisateur.hasMany(models.Activite, {
       foreignKey: "responsableId",
     });
+
   };
 
   return Utilisateur;

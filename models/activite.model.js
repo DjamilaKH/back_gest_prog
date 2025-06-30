@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   Activite.associate = (models) => {
     Activite.belongsTo(models.Projet, {
       foreignKey: "projetId",
+      as: "projet",
     });
 
     Activite.belongsTo(models.Utilisateur, {
@@ -28,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Activite.hasMany(models.Tache, {
       foreignKey: "activiteId",
+      as: "taches",
     });
   };
 

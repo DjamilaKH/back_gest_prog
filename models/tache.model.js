@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   Tache.associate = (models) => {
     Tache.belongsTo(models.Activite, {
       foreignKey: "activiteId",
+      as: "activite",
     });
 
     Tache.belongsTo(models.Utilisateur, {

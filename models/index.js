@@ -2,6 +2,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const dotenv = require("dotenv");
 dotenv.config();
 
+// ✅ Connexion à la base de données PostgreSQL
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
@@ -14,21 +15,22 @@ const sequelize = new Sequelize(
   }
 );
 
+// ✅ Initialisation de l'objet `db` pour centraliser les modèles
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// Importation des modèles avec injection de sequelize et DataTypes
+// ✅ Chargement des modèles (avec injection de sequelize et DataTypes)
 db.Role = require("./role.model")(sequelize, DataTypes);
 db.Utilisateur = require("./utilisateur.model")(sequelize, DataTypes);
 db.Projet = require("./projet.model")(sequelize, DataTypes);
 db.Activite = require("./activite.model")(sequelize, DataTypes);
 db.Tache = require("./tache.model")(sequelize, DataTypes);
 
-// Définir les associations si définies dans chaque modèle
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+// ✅ Appel des méthodes `associate` si elles existent (définir les relations)
+Object.values(db).forEach((model) => {
+  if (model.associate) {
+    model.associate(db);
   }
 });
 

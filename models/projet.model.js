@@ -1,4 +1,3 @@
-// models/projet.model.js
 module.exports = (sequelize, DataTypes) => {
   const Projet = sequelize.define("Projet", {
     id: {
@@ -23,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Projet.hasMany(models.Activite, {
       foreignKey: "projetId",
+      as: "activites",
     });
   };
 

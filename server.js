@@ -8,6 +8,8 @@ const projectRoutes = require("./routes/project.routes"); // <-- à ajouter
 const roleRoutes = require("./routes/role.routes");       // <-- à ajouter
 const activityRoutes = require("./routes/activity.routes");
 const tacheRoutes = require("./routes/tache.routes");
+const utilisateurRoutes = require('./routes/utilisateur.routes');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -29,6 +31,7 @@ app.use("/api/projets", projectRoutes);
 app.use("/api/roles", roleRoutes);
 app.use("/api/activites", activityRoutes);
 app.use("/api/taches", tacheRoutes);
+app.use('/api', utilisateurRoutes);
 
 // Connexion à la base de données
 db.sequelize

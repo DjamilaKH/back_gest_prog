@@ -47,8 +47,13 @@ exports.signup = async (req, res) => {
 exports.signin = async (req, res) => {
   try {
     const { email, motDePasse } = req.body;
+    console.log("Tentative de connexion :", email);
 
-    const utilisateur = await Utilisateur.findOne({ where: { email } });
+    const utilisateur = await Utilisateur.findOne({
+      where: { email },
+      include: [{ model: db.Role, as: 'role' }] // ✅ très important
+    });
+
     if (!utilisateur) {
       return res.status(404).send({ message: "Utilisateur non trouvé." });
     }
@@ -59,8 +64,12 @@ exports.signin = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: utilisateur.id, roleId: utilisateur.roleId },
-      process.env.JWT_SECRET || "SECRET_KEY", // Clé secrète (à mettre dans .env)
+      {
+        id: utilisateur.id,
+        roleId: utilisateur.roleId,
+        roleNom: utilisateur.role?.nom // ✅ le nom du rôle dans le token aussi
+      },
+      process.env.JWT_SECRET || "SECRET_KEY",
       { expiresIn: "24h" }
     );
 
@@ -73,11 +82,14 @@ exports.signin = async (req, res) => {
         prenom: utilisateur.prenom,
         email: utilisateur.email,
         roleId: utilisateur.roleId,
+        roleNom: utilisateur.role?.nom || '', // ✅ ceci est lu dans le frontend
         projetId: utilisateur.projetId,
       },
     });
   } catch (error) {
-    console.error("Erreur lors de la connexion :", error);
+    console.error("Erreur exacte : ", error);
     res.status(500).send({ message: "Erreur lors de la connexion." });
   }
 };
+
+

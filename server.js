@@ -6,7 +6,7 @@ const db = require("./models"); // Import des modèles Sequelize
 const userRoutes = require("./routes/auth.routes");
 const projectRoutes = require("./routes/project.routes"); // <-- à ajouter
 const roleRoutes = require("./routes/role.routes");       // <-- à ajouter
-const activityRoutes = require("./routes/activity.routes");
+const activityRoutes = require("./routes/activites.routes");
 const tacheRoutes = require("./routes/tache.routes");
 const utilisateurRoutes = require('./routes/utilisateur.routes');
 

@@ -1,5 +1,5 @@
 // controllers/activity.controller.js
-const { Activite } = require("../models");
+const { Activite, Projet, Utilisateur } = require("../models");
 const { v4: uuidv4 } = require("uuid");
 
 exports.creerActivite = async (req, res) => {
@@ -23,13 +23,26 @@ exports.creerActivite = async (req, res) => {
 };
 exports.getAllActivites = async (req, res) => {
   try {
-    const activites = await Activite.findAll();
+    const activites = await Activite.findAll({
+      include: [
+        {
+          model: Projet,
+          as: "projet",
+          attributes: ["id", "titre"], // récupère le titre du projet
+        },
+        {
+          model: Utilisateur,
+          as: "responsable",
+          attributes: ["id", "nom", "prenom"], // récupère le nom complet
+        }
+      ]
+    });
     res.json(activites);
   } catch (error) {
     console.error("Erreur lors du chargement des activités :", error);
     res.status(500).json({ message: "Erreur serveur lors de la récupération des activités." });
   }
-};
+}
 exports.updateActivite = async (req, res) => {
   try {
     const { id } = req.params;

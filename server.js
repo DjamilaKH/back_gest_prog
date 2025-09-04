@@ -35,7 +35,7 @@ app.use('/api', utilisateurRoutes);
 
 // Connexion à la base de données
 db.sequelize
-  .sync()
+  .sync({ alter: true })
   .then(() => {
     console.log("Base de données synchronisée.");
     // Lancer le serveur après connexion DB
